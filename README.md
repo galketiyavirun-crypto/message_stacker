@@ -1,2 +1,4 @@
 # message_stacker
-Where you stack messages in a video style
+
+This can be used to stack your messages.
+open up and let's get going!
