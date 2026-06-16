@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Stacker • Beluga Style Videos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --discord-bg: #36393f;
+            --discord-dark: #2f3136;
+            --discord-darker: #202225;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .title-font {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .discord-bg {
+            background-color: #36393f;
+        }
+
+        .discord-card {
+            background-color: #2f3136;
+            border: 1px solid #202225;
+        }
+
+        .ad-placeholder {
+            background-color: #2f3136;
+            border: 2px dashed #4f545c;
+            min-height: 120px;
+        }
+
+        .tool-card {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+        }
+
+        .stack-preview {
+            scrollbar-width: thin;
+            scrollbar-color: #4f545c #2f3136;
+        }
+
+        .frame-count {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .processing-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .discord-button {
+            background-color: #5865f2;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .discord-button:hover {
+            background-color: #4752c4;
+            transform: translateY(-1px);
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #b9bbbe;
+        }
+    </style>
+</head>
+<body class="discord-bg text-white min-h-screen">
+    <!-- TOP AD BANNER -->
+    <div class="w-full bg-[#202225] border-b border-[#4f545c] py-3">
+        <div class="max-w-screen-xl mx-auto px-4">
+            <div class="ad-placeholder flex items-center justify-center rounded-xl">
+                <div class="text-center">
+                    <i class="fas fa-ad text-2xl text-[#4f545c] mb-1"></i>
+                    <p class="text-xs text-[#8e9297]">TOP AD BANNER • Replace with Google AdSense / Ezoic etc.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-screen-xl mx-auto px-4 py-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+            
+            <!-- LEFT AD -->
+            <div class="hidden lg:block w-52 flex-shrink-0">
+                <div class="ad-placeholder sticky top-6 rounded-2xl flex flex-col items-center justify-center p-4 h-[420px]">
+                    <i class="fas fa-ad text-3xl text-[#4f545c] mb-3"></i>
+                    <p class="text-xs text-center text-[#8e9297]">LEFT<br>SIDEBAR AD</p>
+                    <p class="text-[10px] mt-4 text-[#4f545c]">160×600 or 300×250</p>
+                </div>
+            </div>
+
+            <!-- MAIN TOOL AREA (CENTER) -->
+            <div class="flex-1 max-w-3xl mx-auto w-full">
+                
+                <!-- Header -->
+                <div class="flex items-center gap-x-4 mb-6">
+                    <div class="w-14 h-14 bg-[#5865f2] rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-layer-group text-white text-3xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="title-font text-4xl font-semibold tracking-tighter">Discord Stacker</h1>
+                        <p class="text-[#b9bbbe] text-lg">Make Beluga-style videos in seconds</p>
+                    </div>
+                </div>
+
+                <!-- Tool Card -->
+                <div class="discord-card rounded-3xl p-8 tool-card">
+                    
+                    <div class="mb-6">
+                        <div class="section-title mb-1.5">How it works</div>
+                        <p class="text-[#b9bbbe] text-sm leading-relaxed">
+                            Upload your Discord screenshots <span class="font-medium text-white">in order</span>. 
+                            The tool progressively stacks them (first image on top, each new one added below) 
+                            with the classic Discord dark background — exactly like your desktop app but in the browser.
+                        </p>
+                        <div class="mt-3 text-xs bg-[#202225] rounded-xl p-3 text-[#b9bbbe]">
+                            <strong class="text-white">Tip:</strong> Select images in the exact sequence you want the animation to build. 
+                            No more manual "is this a main message?" popups — everything becomes one smooth progressive stack.
+                        </div>
+                    </div>
+
+                    <!-- Upload Form -->
+                    <form id="upload-form" class="space-y-6">
+                        
+                        <!-- File Input -->
+                        <div>
+                            <label class="section-title block mb-2">1. Upload Screenshots (in order)</label>
+                            
+                            <div class="border-2 border-dashed border-[#4f545c] hover:border-[#5865f2] transition-colors rounded-2xl p-8 text-center cursor-pointer bg-[#202225]"
+                                 onclick="document.getElementById('image-input').click()">
+                                
+                                <input type="file" id="image-input" name="images" multiple accept="image/*" class="hidden">
+                                
+                                <div class="flex flex-col items-center">
+                                    <i class="fas fa-images text-4xl text-[#5865f2] mb-3"></i>
+                                    <p class="font-semibold">Click or drag &amp; drop images here</p>
+                                    <p class="text-xs text-[#8e9297] mt-1">PNG, JPG, JPEG • Order matters!</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Selected Images Preview -->
+                            <div id="preview-container" class="hidden mt-4">
+                                <div class="flex items-center justify-between mb-2 px-1">
+                                    <div class="section-title">Selected images <span id="image-count" class="font-mono text-[#5865f2]"></span></div>
+                                    <button type="button" onclick="clearSelection()" 
+                                            class="text-xs px-3 py-1 rounded-lg bg-[#4f545c] hover:bg-red-900/70 transition flex items-center gap-x-1.5 text-white">
+                                        <i class="fas fa-times text-xs"></i>
+                                        <span>Clear all</span>
+                                    </button>
+                                </div>
+                                <div id="preview-grid" 
+                                     class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[220px] overflow-y-auto stack-preview p-1 rounded-xl bg-[#202225]">
+                                    <!-- JS injected thumbnails -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duration -->
+                        <div>
+                            <label class="section-title block mb-2">2. Frame Duration</label>
+                            <div class="flex items-center gap-x-4">
+                                <div class="flex-1">
+                                    <input type="range" id="duration-range" name="duration" 
+                                           min="0.5" max="4" step="0.25" value="1.75"
+                                           class="w-full accent-[#5865f2]">
+                                </div>
+                                <div class="w-24">
+                                    <div class="flex items-center bg-[#202225] border border-[#4f545c] rounded-2xl px-4 py-2">
+                                        <input type="number" id="duration-input" name="duration" value="1.75" step="0.25" min="0.5" max="4"
+                                               class="w-full bg-transparent text-center font-mono text-lg outline-none">
+                                        <span class="text-[#8e9297] text-sm ml-1">sec</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-[#8e9297] mt-1.5 px-1">Each stacked frame will show for this long. 1.5–2.0s works great for most videos.</p>
+                        </div>
+
+                        <!-- Generate Button -->
+                        <button type="button" id="generate-btn"
+                                class="discord-button w-full py-4 rounded-2xl text-white font-semibold text-lg flex items-center justify-center gap-x-3 shadow-xl disabled:opacity-60 disabled:cursor-not-allowed">
+                            <i class="fas fa-magic"></i>
+                            <span id="btn-text">Generate Stacked GIF</span>
+                        </button>
+                        
+                        <p class="text-center text-[10px] text-[#8e9297]">Free • No signup • GIF outputs instantly • Works on phone too</p>
+                    </form>
+
+                    <!-- Processing State -->
+                    <div id="processing-state" class="hidden mt-6 text-center py-8">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-[#202225] rounded-full mb-4">
+                            <i class="fas fa-spinner processing-spinner text-[#5865f2] text-3xl"></i>
+                        </div>
+                        <p class="font-semibold text-lg">Stacking images &amp; creating GIF...</p>
+                        <p class="text-sm text-[#8e9297] mt-1">This can take 10–60 seconds depending on number &amp; size of images</p>
+                        <div class="mt-4 text-xs bg-[#202225] inline-block px-4 py-1 rounded-full">Please don't close this tab</div>
+                    </div>
+
+                    <!-- Result State -->
+                    <div id="result-state" class="hidden mt-6">
+                        <div class="bg-[#202225] border border-[#4f545c] rounded-2xl p-5">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <div class="font-semibold flex items-center gap-x-2">
+                                        <i class="fas fa-check-circle text-emerald-400"></i>
+                                        <span>Your stacked video is ready!</span>
+                                    </div>
+                                    <p class="text-xs text-[#8e9297]">Animated GIF • Perfect for YouTube / TikTok / Discord</p>
+                                </div>
+                                <button onclick="downloadResult()" 
+                                        class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 transition rounded-2xl text-sm font-semibold flex items-center gap-x-2">
+                                    <i class="fas fa-download"></i>
+                                    <span>Download GIF</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Result Preview -->
+                            <div class="bg-black rounded-xl overflow-hidden border border-[#4f545c]">
+                                <img id="result-gif" class="w-full max-h-[420px] object-contain bg-[#36393f]" alt="Generated stacked GIF preview">
+                            </div>
+                            
+                            <div class="flex gap-x-3 mt-4">
+                                <button onclick="resetTool()" 
+                                        class="flex-1 py-3 rounded-2xl border border-[#4f545c] hover:bg-[#2f3136] transition text-sm font-medium">
+                                    <i class="fas fa-redo mr-2"></i> Create Another
+                                </button>
+                                <button onclick="copyShareLink()" 
+                                        class="flex-1 py-3 rounded-2xl bg-[#4f545c] hover:bg-[#5865f2] transition text-sm font-medium">
+                                    <i class="fas fa-link mr-2"></i> Copy Link (soon)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-4 text-center text-xs text-[#8e9297]">
+                    
+                </div>
+            </div>
+
+            <!-- RIGHT AD -->
+            <div class="hidden lg:block w-52 flex-shrink-0">
+                <div class="ad-placeholder sticky top-6 rounded-2xl flex flex-col items-center justify-center p-4 h-[420px]">
+                    <i class="fas fa-ad text-3xl text-[#4f545c] mb-3"></i>
+                    <p class="text-xs text-center text-[#8e9297]">RIGHT<br>SIDEBAR AD</p>
+                    <p class="text-[10px] mt-4 text-[#4f545c]">300×600 or 160×600</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BOTTOM AD BANNER -->
+    <div class="w-full bg-[#202225] border-t border-[#4f545c] py-3 mt-auto">
+        <div class="max-w-screen-xl mx-auto px-4">
+            <div class="ad-placeholder flex items-center justify-center rounded-xl py-4">
+                <div class="text-center">
+                    <i class="fas fa-ad text-xl text-[#4f545c]"></i>
+                    <p class="text-xs text-[#8e9297] mt-1">BOTTOM BANNER AD • Perfect for high visibility</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#5865f2');
+        }
+        
+        let selectedFiles = [];
+        let resultBlob = null;
+        let resultUrl = null;
+
+        // Sync range + number input
+        function setupDurationControls() {
+            const range = document.getElementById('duration-range');
+            const input = document.getElementById('duration-input');
+            
+            range.addEventListener('input', () => {
+                input.value = range.value;
+            });
+            
+            input.addEventListener('input', () => {
+                let val = parseFloat(input.value);
+                if (val < 0.5) val = 0.5;
+                if (val > 4) val = 4;
+                range.value = val;
+                input.value = val;
+            });
+            
+            // initial
+            input.value = range.value;
+        }
+
+        // Handle file selection
+        function setupFileInput() {
+            const input = document.getElementById('image-input');
+            const previewContainer = document.getElementById('preview-container');
+            const previewGrid = document.getElementById('preview-grid');
+            const countEl = document.getElementById('image-count');
+            
+            input.addEventListener('change', (e) => {
+                const newFiles = Array.from(e.target.files);
+                if (newFiles.length === 0) return;
+                
+                // Add to selected (limit 20)
+                selectedFiles = [...selectedFiles, ...newFiles].slice(0, 20);
+                
+                updatePreview();
+                previewContainer.classList.remove('hidden');
+                
+                // clear input so same file can be re-added if wanted
+                input.value = '';
+            });
+            
+            // Drag and drop support
+            const dropZone = input.parentElement;
+            
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('!border-[#5865f2]', 'bg-[#2f3136]');
+            });
+            
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('!border-[#5865f2]', 'bg-[#2f3136]');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('!border-[#5865f2]', 'bg-[#2f3136]');
+                
+                const dropped = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+                if (dropped.length > 0) {
+                    selectedFiles = [...selectedFiles, ...dropped].slice(0, 20);
+                    updatePreview();
+                    previewContainer.classList.remove('hidden');
+                }
+            });
+        }
+        
+        function updatePreview() {
+            const previewGrid = document.getElementById('preview-grid');
+            const countEl = document.getElementById('image-count');
+            const previewContainer = document.getElementById('preview-container');
+            
+            previewGrid.innerHTML = '';
+            countEl.textContent = `(${selectedFiles.length})`;
+            
+            if (selectedFiles.length === 0) {
+                previewContainer.classList.add('hidden');
+                return;
+            }
+            
+            selectedFiles.forEach((file, index) => {
+                const url = URL.createObjectURL(file);
+                
+                const div = document.createElement('div');
+                div.className = `relative group bg-[#36393f] rounded-xl overflow-hidden border border-[#4f545c] aspect-[4/3]`;
+                
+                div.innerHTML = `
+                    <img src="${url}" class="w-full h-full object-cover" alt="preview ${index + 1}">
+                    <div class="absolute top-1.5 right-1.5 bg-black/70 text-white text-[10px] font-mono px-1.5 py-px rounded">
+                        ${index + 1}
+                    </div>
+                    <button onclick="removeImage(${index}, event)" 
+                            class="absolute top-1.5 left-1.5 w-5 h-5 bg-red-600/90 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-xs">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-2 py-1">
+                        <p class="text-white text-[10px] truncate">${file.name}</p>
+                    </div>
+                `;
+                
+                previewGrid.appendChild(div);
+            });
+        }
+        
+        function removeImage(index, e) {
+            e.stopImmediatePropagation();
+            selectedFiles.splice(index, 1);
+            updatePreview();
+        }
+        
+        function clearSelection() {
+            selectedFiles = [];
+            document.getElementById('preview-container').classList.add('hidden');
+            document.getElementById('preview-grid').innerHTML = '';
+        }
+
+        // Main generate function
+        async function generateVideo() {
+            const btn = document.getElementById('generate-btn');
+            const btnText = document.getElementById('btn-text');
+            const processing = document.getElementById('processing-state');
+            const resultState = document.getElementById('result-state');
+            const form = document.getElementById('upload-form');
+            
+            if (selectedFiles.length === 0) {
+                alert("Please select at least one image first!");
+                return;
+            }
+            
+            // Hide previous result
+            resultState.classList.add('hidden');
+            processing.classList.remove('hidden');
+            btn.disabled = true;
+            btnText.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Processing...`;
+            
+            try {
+                const formData = new FormData();
+                
+                // Append all selected files in order
+                selectedFiles.forEach(file => {
+                    formData.append('images', file);
+                });
+                
+                // Duration
+                const duration = document.getElementById('duration-input').value;
+                formData.append('duration', duration);
+                
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `Server error: ${response.status}`);
+                }
+                
+                // Success - get the GIF blob
+                resultBlob = await response.blob();
+                resultUrl = URL.createObjectURL(resultBlob);
+                
+                // Show result
+                processing.classList.add('hidden');
+                resultState.classList.remove('hidden');
+                
+                const img = document.getElementById('result-gif');
+                img.src = resultUrl;
+                
+                // Auto scroll to result
+                resultState.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+            } catch (err) {
+                processing.classList.add('hidden');
+                alert("Error generating GIF:\n" + err.message);
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+                btnText.innerHTML = `Generate Stacked GIF`;
+            }
+        }
+        
+        function downloadResult() {
+            if (!resultBlob || !resultUrl) return;
+            
+            const a = document.createElement('a');
+            a.href = resultUrl;
+            a.download = 'discord_stacked_beluga_style.gif';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        
+        function resetTool() {
+            // Clear everything
+            document.getElementById('result-state').classList.add('hidden');
+            document.getElementById('processing-state').classList.add('hidden');
+            document.getElementById('preview-container').classList.add('hidden');
+            document.getElementById('preview-grid').innerHTML = '';
+            
+            selectedFiles = [];
+            if (resultUrl) {
+                URL.revokeObjectURL(resultUrl);
+                resultUrl = null;
+                resultBlob = null;
+            }
+            
+            // Reset form
+            document.getElementById('upload-form').reset();
+            document.getElementById('duration-input').value = '1.75';
+            document.getElementById('duration-range').value = '1.75';
+        }
+        
+        function copyShareLink() {
+            alert("Sharing links coming in next update! For now, just download the GIF and upload it wherever you want.");
+        }
+        
+        // Keyboard support
+        function setupKeyboard() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+                    e.preventDefault();
+                    document.getElementById('image-input').click();
+                }
+            });
+            
+            // Enter to generate when files selected
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && selectedFiles.length > 0 && 
+                    !document.getElementById('result-state').classList.contains('hidden')) {
+                    // already have result
+                }
+            });
+        }
+        
+        // Initialize everything
+        function init() {
+            initializeTailwind();
+            setupDurationControls();
+            setupFileInput();
+            setupKeyboard();
+            
+            // Bind generate button
+            document.getElementById('generate-btn').addEventListener('click', generateVideo);
+            
+            // Bonus: allow Enter on duration to generate
+            document.getElementById('duration-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && selectedFiles.length > 0) {
+                    generateVideo();
+                }
+            });
+            
+            // Welcome console message
+            console.log('%c[Discord Stacker] Web version ready. Your original Python logic is now running safely on the server!', 'color:#5865f2');
+        }
+        
+        window.onload = init;
+    </script>
+</body>
+</html>
